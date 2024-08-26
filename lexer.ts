@@ -1,3 +1,5 @@
+import * as fs from "fs";
+
 export enum TokenType {
   Number,
   Identifier,
@@ -29,6 +31,10 @@ function isAlpha(char: string): boolean {
 
 function isNumber(char: string): boolean {
   return !(isNaN(parseInt(char)));
+}
+
+function isSkippable(char: string): boolean {
+  return char === " " || char === "\n" || char === "\r" || char === "\t";
 }
 
 function tokenize(sourceCode: string): Token[] {
@@ -77,4 +83,6 @@ function tokenize(sourceCode: string): Token[] {
 
 }
 
-console.log(tokenize("let haha = 0 + (23 / 2)"));
+const out = fs.readFileSync("./lexer.ts", "utf8");
+
+console.log(tokenize(out));

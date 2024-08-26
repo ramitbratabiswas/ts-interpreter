@@ -1,6 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.Token = exports.TokenType = void 0;
+var fs = require("fs");
 var TokenType;
 (function (TokenType) {
     TokenType[TokenType["Number"] = 0] = "Number";
@@ -27,6 +28,9 @@ function isAlpha(char) {
 }
 function isNumber(char) {
     return !(isNaN(parseInt(char)));
+}
+function isSkippable(char) {
+    return char === " " || char === "\n" || char === "\r" || char === "\t";
 }
 function tokenize(sourceCode) {
     var tokens = [];
@@ -72,4 +76,5 @@ function tokenize(sourceCode) {
     }
     return tokens;
 }
-console.log(tokenize("let haha = 0 + (23 / 2)"));
+var out = fs.readFileSync("./lexer.ts", "utf8");
+console.log(tokenize(out));
